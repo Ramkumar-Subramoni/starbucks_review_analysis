@@ -1,0 +1,12 @@
+{
+	"name": "StarbucksBlobStorage",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": "DefaultEndpointsProtocol=https;AccountName=starbucksreviews;EndpointSuffix=core.windows.net;",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDdDMDU2NUIxLUZFQjMtNDhENC1CODE0LTk0Q0Y2NUE5NTlBOF83NGRhMDNjNi1hYzQ2LTQ5OGItYTMxMy1jOTY0NWMyYzI5NjYiDQp9"
+		}
+	}
+}

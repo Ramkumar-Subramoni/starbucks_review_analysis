@@ -1,0 +1,9 @@
+{
+	"name": "ReviewIngester",
+	"location": "canadacentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "8d72b061-a168-47d4-bbe0-5f41369c7382",
+		"tenantId": "da9a94b6-4681-49bc-bd7c-bab9eac0ad3c"
+	}
+}
