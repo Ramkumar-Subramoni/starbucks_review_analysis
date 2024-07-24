@@ -12,8 +12,26 @@
 					"name": "BlobSource"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "TransformedResults"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AddingReviewNatureColumn"
+				},
+				{
+					"name": "DateSplit"
+				},
+				{
+					"name": "SelectFinalColumns"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          location as string,",
@@ -25,7 +43,39 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> BlobSource"
+				"     ignoreNoFilesFound: false) ~> BlobSource",
+				"BlobSource derive(ReviewNature = iif(Rating > 3, 'Positive', iif(Rating < 3, 'Negative', 'Neutral'))) ~> AddingReviewNatureColumn",
+				"AddingReviewNatureColumn derive(Day = iif(dayOfWeek(Date) == 1, 'Monday',\r",
+				" iif(dayOfWeek(Date) == 2, 'Tuesday',\r",
+				"  iif(dayOfWeek(Date) == 3, 'Wednesday',\r",
+				"   iif(dayOfWeek(Date) == 4, 'Thursday',\r",
+				"    iif(dayOfWeek(Date) == 5, 'Friday',\r",
+				"     iif(dayOfWeek(Date) == 6, 'Saturday',\r",
+				"      iif(dayOfWeek(Date) == 7, 'Sunday', ''))))))),",
+				"          Month = month(Date),",
+				"          Year = year(Date)) ~> DateSplit",
+				"DateSplit select(mapColumn(",
+				"          Date,",
+				"          Review,",
+				"          City,",
+				"          State,",
+				"          ReviewNature,",
+				"          Day,",
+				"          Month,",
+				"          Year",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectFinalColumns",
+				"SelectFinalColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> TransformedResults"
 			]
 		}
 	}
