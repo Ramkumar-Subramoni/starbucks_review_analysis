@@ -1,0 +1,32 @@
+{
+	"name": "Starbucks Review Transformation",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Starbucks_reviews",
+						"type": "DatasetReference"
+					},
+					"name": "BlobSource"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          location as string,",
+				"          Date as date,",
+				"          Rating as double,",
+				"          Review as string,",
+				"          City as string,",
+				"          State as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> BlobSource"
+			]
+		}
+	}
+}
