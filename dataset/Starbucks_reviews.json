@@ -42,6 +42,10 @@
 			{
 				"name": "State",
 				"type": "String"
+			},
+			{
+				"name": "GeneratedSentiment",
+				"type": "String"
 			}
 		]
 	}
